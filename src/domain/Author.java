@@ -1,6 +1,6 @@
 package domain;
 
-public class Author {
+public class Author{
 
     private static int idGenerator =1;
     private int authorId;
@@ -13,11 +13,6 @@ public class Author {
         this.email = email;
     }
 
-    public Author(int authorId, String name, String email) {
-        this.authorId = authorId;
-        this.name = name;
-        this.email = email;
-    }
 
     public int getAuthorId() {
         return authorId;

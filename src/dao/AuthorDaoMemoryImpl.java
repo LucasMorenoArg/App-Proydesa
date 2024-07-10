@@ -2,17 +2,24 @@ package dao;
 
 import domain.Author;
 import exceptions.DAOException;
+
 import services.AuthorDao;
+
+
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
-public class AuthorDaoMemoryImpl implements AuthorDao {
+public class AuthorDaoMemoryImpl implements AuthorDao{
 
     private static Map<Integer, Author> authors;
+
 
     public AuthorDaoMemoryImpl(){
         authors = new HashMap<>();
     }
+
 
 
     @Override
@@ -96,4 +103,28 @@ public class AuthorDaoMemoryImpl implements AuthorDao {
             System.out.println("Ingresar un Id válido");
         }
     }
+
+
+    TreeMap<Integer, Author> sortedAuthorMap = new TreeMap<>(new Comparator<Integer>() {
+        @Override
+        public int compare(Integer id1, Integer id2) {
+            Author a1 = authors.get(id1);
+            Author a2 = authors.get(id2);
+            return a1.getName().compareTo(a2.getName());
+        }
+    });
+
+
+    public void getAuthorsSortedByName(){
+
+        sortedAuthorMap.putAll(authors);
+        for (Map.Entry<Integer, Author> entry : sortedAuthorMap.entrySet()) {
+            System.out.println(entry.getValue());
+        }
+
+
+
+    }
+
+
 }

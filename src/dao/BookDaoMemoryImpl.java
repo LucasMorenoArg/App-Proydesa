@@ -1,28 +1,37 @@
 package dao;
 
+
 import domain.Book;
-import exceptions.DAOException;
+import domain.Order;
 import services.BookDao;
+import services.BookService;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-public class BookDaoMemoryImpl implements BookDao {
+public class BookDaoMemoryImpl implements BookDao, BookService {
 
     List<Book> books = new ArrayList<>();
 
-    @Override
-    public void getAll() {
-            Book bcc=null;
-        try {
-            for (Book b:books){
-                System.out.println(b.getTitle());
 
+
+    @Override
+    public List<Book> getAll() {
+           List<Book> bcc=null;
+        try {
+
+            for (Book b:books){
+                System.out.println(b);
             }
+            bcc = books;
         }catch (Exception d){
             d.getMessage();
         }
+        return bcc;
+
 
 
     }
@@ -47,10 +56,10 @@ public class BookDaoMemoryImpl implements BookDao {
     @Override
     public void create(Book book) {
 
-
         if (!books.contains(book)){
 
             try {
+
                 books.add(book);
 
             }catch (Exception e){
@@ -86,7 +95,42 @@ public class BookDaoMemoryImpl implements BookDao {
                 e.getMessage();
             }
         }
+    }
 
 
+    @Override
+    public void getBooksSortedByTitle(Order o) {
+
+        books.sort(new Comparator<Book>() {
+            @Override
+            public int compare(Book o1, Book o2) {
+                if (o == Order.Asc) {
+                 return o1.getTitle().compareTo(o2.getTitle());
+                } else if (o ==Order.Desc) {
+                    return o2.getTitle().compareTo(o1.getTitle());
+                } else return 0;
+            }
+
+        });
+        for (Book book: books){
+            System.out.println(book);
+        }
+    }
+
+    @Override
+    public void getBooksSortedByPrice(Order o) {
+        books.sort(new Comparator<Book>() {
+            @Override
+            public int compare(Book o1, Book o2) {
+                if (o == Order.Asc){
+                 return(int) (o1.getPrice() - (o2.getPrice()));
+                } else if (o == Order.Desc) {
+                    return(int) (o2.getPrice() - (o1.getPrice()));
+                } else return 0;
+            }
+        });
+        for (Book book: books){
+            System.out.println(book);
+        }
     }
 }

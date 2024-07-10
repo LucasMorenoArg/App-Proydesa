@@ -1,6 +1,6 @@
 package domain;
 
-public class Book {
+public class Book implements Comparable<Book>  {
 
     private static int idGenerator=1;
     private int bookId;
@@ -58,6 +58,11 @@ public class Book {
                 ", price=" + price +
                 ", author=" + author +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Book o) {
+        return 0;
     }
 }
 
