@@ -37,7 +37,9 @@ public class Main {
 
         System.out.println("-------------------------------------------");
 
-        bookDaoMemory.getBooksSortedByPrice(Order.Desc);
+        //bookDaoMemory.getBooksSortedByPrice(Order.Desc);
+        authorDaoMemory.getauthorsorted1();
+        authorDaoMemory.getAuthorsSortedByName();
 
 
 

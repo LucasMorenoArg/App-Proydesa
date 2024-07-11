@@ -1,6 +1,7 @@
 package services;
 
 import domain.Author;
+import domain.Book;
 import exceptions.DAOException;
 
 import java.util.List;
