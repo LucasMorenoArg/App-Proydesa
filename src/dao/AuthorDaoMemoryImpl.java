@@ -1,6 +1,7 @@
 package dao;
 
 import domain.Author;
+import domain.Order;
 import exceptions.DAOException;
 
 import services.AuthorDao;
@@ -105,41 +106,27 @@ public class AuthorDaoMemoryImpl implements AuthorDao {
     }
 
 
-    public void getauthorsorted1(){
+    public void getAuthorsSortedByName(Order o){
 
-
-        TreeMap<Integer, Author> sortedAuthorMap1 = new TreeMap<>(new Comparator<Integer>() {
-
+        TreeMap<Integer, Author> sortedAuthorMap = new TreeMap<>(new Comparator<Integer>() {
             @Override
-            public int compare(Integer o1, Integer o2) {
-                Author a1 = authors.get(o1);
-                Author a2 = authors.get(o2);
-                return a1.getName().compareTo(a2.getName());
+            public int compare(Integer id1, Integer id2) {
+                int num = 0;
+                Author a1 = authors.get(id1);
+                Author a2 = authors.get(id2);
+
+                if (o == Order.Asc) {
+                    num = a1.getName().compareTo(a2.getName());
+                } else if (o == Order.Desc) {
+                    num = a2.getName().compareTo(a1.getName());
+                }
+                return num;
             }
-
-
-        }); {sortedAuthorMap1.putAll(authors);
-            for (Map.Entry<Integer, Author> entry : sortedAuthorMap1.entrySet()) {
+        });
+            sortedAuthorMap.putAll(authors);
+            for (Map.Entry<Integer, Author> entry : sortedAuthorMap.entrySet()) {
                 System.out.println(entry.getValue());
-            }}
-
-    }
-
-    TreeMap<Integer, Author> sortedAuthorMap = new TreeMap<>(new Comparator<Integer>() {
-        @Override
-        public int compare(Integer id1, Integer id2) {
-            Author a1 = authors.get(id1);
-            Author a2 = authors.get(id2);
-            return a2.getName().compareTo(a1.getName());
-        }
-    });
-
-
-    public void getAuthorsSortedByName(){
-
-        sortedAuthorMap.putAll(authors);
-        for (Map.Entry<Integer, Author> entry : sortedAuthorMap.entrySet()) {
-            System.out.println(entry.getValue());
+            }
         }
     }
-}
+

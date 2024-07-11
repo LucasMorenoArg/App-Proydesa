@@ -11,8 +11,8 @@ public class Main {
         AuthorDaoMemoryImpl authorDaoMemory = new AuthorDaoMemoryImpl();
         BookDaoMemoryImpl bookDaoMemory = new BookDaoMemoryImpl();
 
-        authorDaoMemory.create(new Author("Jorge Luis Borges", "jlBorges@gmail.com"));
-        authorDaoMemory.create(new Author("Isabel Allende", "IAllende@gmail.com"));
+        authorDaoMemory.create(new Author("Isabel Allende", "jlBorges@gmail.com"));
+        authorDaoMemory.create(new Author("Jorge Luis Borges", "IAllende@gmail.com"));
         authorDaoMemory.create(new Author("Gabriel Garcia Marquez", "GMarquez@gmail.com"));
 
         bookDaoMemory.create(new Book("AAA",35.00,authorDaoMemory.byId(1)));
@@ -33,13 +33,14 @@ public class Main {
         //bookDaoMemory.update(book2,bookActualizado);
 
 
-        bookDaoMemory.getBooksSortedByTitle(Order.Desc);
+        //bookDaoMemory.getBooksSortedByTitle(Order.Desc);
 
         System.out.println("-------------------------------------------");
 
         //bookDaoMemory.getBooksSortedByPrice(Order.Desc);
-        authorDaoMemory.getauthorsorted1();
-        authorDaoMemory.getAuthorsSortedByName();
+
+
+        authorDaoMemory.getAuthorsSortedByName(Order.Asc);
 
 
 
