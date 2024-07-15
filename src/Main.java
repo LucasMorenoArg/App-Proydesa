@@ -1,15 +1,27 @@
+import dao.AuthorDAOFActory;
 import dao.AuthorDaoMemoryImpl;
-import dao.BookDaoMemoryImpl;
+import dao.BookDAOFactory;
 import domain.Author;
 import domain.Book;
 import domain.Order;
+import services.AuthorDao;
+import services.BookDao;
 
 
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        AuthorDaoMemoryImpl authorDaoMemory = new AuthorDaoMemoryImpl();
-        BookDaoMemoryImpl bookDaoMemory = new BookDaoMemoryImpl();
+
+        AuthorDao authorDaoMemory = AuthorDAOFActory.createEmployeeDAO();
+        AuthorDaoMemoryImpl q = new AuthorDaoMemoryImpl();
+
+        BookDao bookDaoMemory = BookDAOFactory.createBookDoa();
+
+        authorDaoMemory.create(new Author("Pedro Sanchez","PS@gmail.com"));
+        authorDaoMemory.getAll();
+
+        //AuthorDaoMemoryImpl authorDaoMemory = new AuthorDaoMemoryImpl();
+        //BookDaoMemoryImpl bookDaoMemory = new BookDaoMemoryImpl();
 
         authorDaoMemory.create(new Author("Isabel Allende", "jlBorges@gmail.com"));
         authorDaoMemory.create(new Author("Jorge Luis Borges", "IAllende@gmail.com"));
@@ -37,7 +49,7 @@ public class Main {
 
         System.out.println("-------------------------------------------");
 
-        //bookDaoMemory.getBooksSortedByPrice(Order.Desc);
+        bookDaoMemory.getBooksSortedByPrice(Order.Desc);
 
 
         authorDaoMemory.getAuthorsSortedByName(Order.Asc);

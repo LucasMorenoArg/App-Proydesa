@@ -4,15 +4,13 @@ package dao;
 import domain.Book;
 import domain.Order;
 import services.BookDao;
-import services.BookService;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class BookDaoMemoryImpl implements BookDao, BookService {
+public class BookDaoMemoryImpl implements BookDao {
 
     List<Book> books = new ArrayList<>();
 
@@ -99,14 +97,14 @@ public class BookDaoMemoryImpl implements BookDao, BookService {
 
 
     @Override
-    public void getBooksSortedByTitle(Order o) {
+    public void getBooksSortedByTitle(Order order) {
 
         books.sort(new Comparator<Book>() {
             @Override
             public int compare(Book o1, Book o2) {
-                if (o == Order.Asc) {
+                if (order == Order.Asc) {
                  return o1.getTitle().compareTo(o2.getTitle());
-                } else if (o ==Order.Desc) {
+                } else if (order ==Order.Desc) {
                     return o2.getTitle().compareTo(o1.getTitle());
                 } else return 0;
             }
@@ -118,13 +116,13 @@ public class BookDaoMemoryImpl implements BookDao, BookService {
     }
 
     @Override
-    public void getBooksSortedByPrice(Order o) {
+    public void getBooksSortedByPrice(Order order) {
         books.sort(new Comparator<Book>() {
             @Override
             public int compare(Book o1, Book o2) {
-                if (o == Order.Asc){
+                if (order == Order.Asc){
                  return(int) (o1.getPrice() - (o2.getPrice()));
-                } else if (o == Order.Desc) {
+                } else if (order == Order.Desc) {
                     return(int) (o2.getPrice() - (o1.getPrice()));
                 } else return 0;
             }

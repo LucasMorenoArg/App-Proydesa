@@ -106,7 +106,7 @@ public class AuthorDaoMemoryImpl implements AuthorDao {
     }
 
 
-    public void getAuthorsSortedByName(Order o){
+    public void getAuthorsSortedByName(Order order){
 
         TreeMap<Integer, Author> sortedAuthorMap = new TreeMap<>(new Comparator<Integer>() {
             @Override
@@ -115,9 +115,9 @@ public class AuthorDaoMemoryImpl implements AuthorDao {
                 Author a1 = authors.get(id1);
                 Author a2 = authors.get(id2);
 
-                if (o == Order.Asc) {
+                if (order == Order.Asc) {
                     num = a1.getName().compareTo(a2.getName());
-                } else if (o == Order.Desc) {
+                } else if (order == Order.Desc) {
                     num = a2.getName().compareTo(a1.getName());
                 }
                 return num;
