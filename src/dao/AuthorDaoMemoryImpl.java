@@ -60,7 +60,7 @@ public class AuthorDaoMemoryImpl implements AuthorDao {
         if (!authors.containsKey(author.getAuthorId())) {
     try {
 
-    authors.put(author.getAuthorId(), author);
+        authors.put(author.getAuthorId(), author);
 
     }catch (Exception e ){
         e.getMessage();
@@ -74,18 +74,21 @@ public class AuthorDaoMemoryImpl implements AuthorDao {
 
 
     @Override
-    public void update(Author author) throws DAOException{
+    public void update(Author author,String nombre,String email){
 
         int id=author.getAuthorId();
 
-        if (authors.containsKey(id)) {
+        if (authors.containsValue(author)) {
             try {
+                author.setName(nombre);
+                author.setEmail(email);
+
                 authors.put(id, author);
+
             } catch (Exception daoException) {
                 daoException.getMessage();
             }
         }
-        System.out.println("author actualizado: " + author);
     }
 
     @Override

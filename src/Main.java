@@ -1,5 +1,4 @@
 import dao.AuthorDAOFActory;
-import dao.AuthorDaoMemoryImpl;
 import dao.BookDAOFactory;
 import domain.Author;
 import domain.Book;
@@ -13,46 +12,43 @@ public class Main {
 
 
         AuthorDao authorDaoMemory = AuthorDAOFActory.createEmployeeDAO();
-        AuthorDaoMemoryImpl q = new AuthorDaoMemoryImpl();
+        BookDao bookDaoMemory = BookDAOFactory.createBookDao();
 
-        BookDao bookDaoMemory = BookDAOFactory.createBookDoa();
-
-        authorDaoMemory.create(new Author("Pedro Sanchez","PS@gmail.com"));
-        authorDaoMemory.getAll();
-
-        //AuthorDaoMemoryImpl authorDaoMemory = new AuthorDaoMemoryImpl();
-        //BookDaoMemoryImpl bookDaoMemory = new BookDaoMemoryImpl();
-
+        //Creación de Autores
         authorDaoMemory.create(new Author("Isabel Allende", "jlBorges@gmail.com"));
         authorDaoMemory.create(new Author("Jorge Luis Borges", "IAllende@gmail.com"));
         authorDaoMemory.create(new Author("Gabriel Garcia Marquez", "GMarquez@gmail.com"));
-
+        //Creación de Libros
         bookDaoMemory.create(new Book("AAA",35.00,authorDaoMemory.byId(1)));
         bookDaoMemory.create(new Book("BBB",30.00,authorDaoMemory.byId(2)));
         bookDaoMemory.create(new Book("CCC",34.00,authorDaoMemory.byId(3)));
 
-        //Author authorActualizado = new Author(3 ,"Juan Lima","JLima@gmail.com");
+        //Actualización de Authores
+        Author author = authorDaoMemory.byId(3);
+        authorDaoMemory.update(author,"Jorge Lima","JLima@gmail.com");
 
-        //Book bookActualizado = new Book("CCC", 45.00, authorDaoMemory.byId(3));
-        //Book book2 = bookDaoMemory.byId(0);
-        //authorDaoMemory.getAll();
-        //authorDaoMemory.update(authorActualizado);
+        System.out.println("-------------------------------------------");
+        System.out.println("auhorDaoMemory");
+        System.out.println("-------------------------------------------");
+        authorDaoMemory.getAll();
+
+
+        //Actualización de Book
+        Book bookActualizado = new Book("CCC", 45.00, authorDaoMemory.byId(1));
+        Book book2 = bookDaoMemory.byId(0);
+        bookDaoMemory.update(book2,bookActualizado);
 
 
         System.out.println("-------------------------------------------");
         System.out.println("bookDaoMemory");
         System.out.println("-------------------------------------------");
-        //bookDaoMemory.update(book2,bookActualizado);
+
+        bookDaoMemory.getAll();
 
 
-        //bookDaoMemory.getBooksSortedByTitle(Order.Desc);
-
-        System.out.println("-------------------------------------------");
-
-        bookDaoMemory.getBooksSortedByPrice(Order.Desc);
 
 
-        authorDaoMemory.getAuthorsSortedByName(Order.Asc);
+
 
 
 

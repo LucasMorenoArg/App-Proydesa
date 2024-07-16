@@ -4,7 +4,7 @@ import services.BookDao;
 
 public class BookDAOFactory {
 
-    public static BookDao createBookDoa(){
+    public static BookDao createBookDao(){
         BookDao dao= null;
         try {
             Class<?> clazz = Class.forName("dao.BookDaoMemoryImpl");
