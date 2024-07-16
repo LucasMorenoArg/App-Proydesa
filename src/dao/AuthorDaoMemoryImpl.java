@@ -24,7 +24,7 @@ public class AuthorDaoMemoryImpl implements AuthorDao {
 
 
     @Override
-    public void getAll() throws DAOException {
+    public void getAll(){
 
         for (Author author: authors.values()){
             System.out.println(author);
@@ -92,7 +92,7 @@ public class AuthorDaoMemoryImpl implements AuthorDao {
     }
 
     @Override
-    public void delete(Integer id) throws DAOException{
+    public void delete(Integer id){
 
         if (authors.containsKey(id)) {
 
