@@ -10,7 +10,7 @@ import java.util.List;
 public interface BookDao {
 
     List<Book> getAll();
-    Book byId(Integer id) throws Exception;
+    Book byId(Integer id) throws DAOException;
     void create(Book book);
     void update(Book book1, Book book2)throws DAOException;
     void getBooksSortedByTitle(Order order);
