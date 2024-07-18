@@ -71,8 +71,7 @@ public class AuthorDaoMemoryImpl implements AuthorDao{
                 author.setName(nombre);
                 author.setEmail(email);
                 authors.put(id, author);
-            }
-        throw new DAOException();
+            }else throw new DAOException();
         }
 
 

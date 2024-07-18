@@ -6,7 +6,9 @@ import exceptions.DAOException;
 import services.AuthorDao;
 import services.BookDao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -22,16 +24,26 @@ public class Main {
 
             //Creacion de Autores y libros
             createAuthor(authorDaoMemory);
+            getAllAuthors(authorDaoMemory);
+            System.out.println("Autores");
             createBook(bookDaoMemory, authorDaoMemory);
+            System.out.println("Autores");
+
 
             //Actualización de Autores y libros
-            Book bookActualizado = new Book("CCC", 45.00, authorDaoMemory.byId(1));
+            Book bookActualizado = new Book("CCC", 45.00, authorDaoMemory.byId(3));
+            Book viejo = bookDaoMemory.byId(2);
+            System.out.println("Autores");
             updateAuthor(3,"Jorge Lima","JLima@gmail.com",authorDaoMemory);
-            updateBook(bookDaoMemory.byId(0),bookActualizado,bookDaoMemory);
+            getAllAuthors(authorDaoMemory);
+            System.out.println("Autores");
+            updateBook(viejo,bookActualizado,bookDaoMemory);
+            getAllBooks(bookDaoMemory);
+
 
             //Obtener Autores y libros
 
-            getAllAuthors(authorDaoMemory);
+
 
 
 
@@ -74,12 +86,12 @@ public class Main {
         }
     }
 
-    public static void updateBook(Book viejo,Book actualizado, BookDao bookDaoMemory) throws DAOException{
+    public static void updateBook(Book viejo, Book actualizado, BookDao bookDaoMemory) throws DAOException{
 
         try{
             bookDaoMemory.update(viejo,actualizado);
         }catch (DAOException daoException){
-            throw new DAOException();
+            throw new DAOException("Excepcion en update");
         }
       }
 
@@ -90,7 +102,13 @@ public class Main {
         for (Author mapa : map.values()){
             System.out.println(mapa);
         }
+    }
 
-      }
+    public static void getAllBooks(BookDao bookDaoMemory) throws DAOException{
+
+        bookDaoMemory.getAll();
+
+        }
+
     }
 

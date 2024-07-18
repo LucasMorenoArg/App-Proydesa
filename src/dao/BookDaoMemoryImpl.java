@@ -3,6 +3,7 @@ package dao;
 
 import domain.Book;
 import domain.Order;
+import exceptions.DAOException;
 import services.BookDao;
 
 
@@ -13,7 +14,6 @@ import java.util.List;
 public class BookDaoMemoryImpl implements BookDao {
 
     List<Book> books = new ArrayList<>();
-
 
 
     @Override
@@ -29,8 +29,6 @@ public class BookDaoMemoryImpl implements BookDao {
             d.getMessage();
         }
         return bcc;
-
-
 
     }
 
@@ -68,16 +66,14 @@ public class BookDaoMemoryImpl implements BookDao {
     }
 
     @Override
-    public void update(Book book1, Book book2) {
+    public void update(Book book1, Book book2) throws DAOException {
 
         if (books.contains(book1)){
 
-            try {
+
                 books.remove(book1);
                 books.add(book2);
-            }catch (Exception e){
-                e.getMessage();
-            }
+
 
         } else System.out.println("No se pudo actualizar libro solicitado");
 
