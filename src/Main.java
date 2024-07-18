@@ -34,7 +34,6 @@ public class Main {
             booksSortedByTitle(bookDaoMemory);
             getAllAuthors(authorDaoMemory);
 
-
         } catch (DAOException daoException){
             daoException.getMessage();
             daoException.getCause();
