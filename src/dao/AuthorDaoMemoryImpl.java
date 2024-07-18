@@ -25,7 +25,6 @@ public class AuthorDaoMemoryImpl implements AuthorDao{
     @Override
     public Map<Integer,Author> getAll() throws DAOException{
 
-
         if (!authors.isEmpty()) {
 
             return authors;
@@ -36,19 +35,15 @@ public class AuthorDaoMemoryImpl implements AuthorDao{
 
 
     @Override
-    public Author byId(Integer id){
-        Author author = null;
+    public Author byId(Integer id) throws DAOException{
 
         if (authors.containsKey(id)){
-            author = authors.get(id);
 
-        }else {
-            System.out.println("El id seleccionado no esta registrado");
-        }
-        return author;
+            return authors.get(id);
+
+        } else throw new DAOException();
+
     }
-
-
 
     @Override
     public void create(Author author) throws DAOException {
@@ -57,9 +52,8 @@ public class AuthorDaoMemoryImpl implements AuthorDao{
 
               authors.put(author.getAuthorId(), author);
          }
-        else {throw new DAOException();}
+        else throw new DAOException();
     }
-
 
 
     @Override
@@ -71,7 +65,8 @@ public class AuthorDaoMemoryImpl implements AuthorDao{
                 author.setName(nombre);
                 author.setEmail(email);
                 authors.put(id, author);
-            }else throw new DAOException();
+
+            } else throw new DAOException("Failed to sort authors");
         }
 
 
@@ -82,32 +77,46 @@ public class AuthorDaoMemoryImpl implements AuthorDao{
 
             authors.remove(id);
 
-        } else throw new DAOException();
+        } else throw new DAOException("Failed to sort authors");
     }
 
 
-    public void getAuthorsSortedByName(Order order){
+
+    @Override
+    public void getAuthorsSortedByName(Order order) throws DAOException {
+        if (authors == null) {
+            throw new DAOException("Authors collection is null");
+        }
 
         TreeMap<Integer, Author> sortedAuthorMap = new TreeMap<>(new Comparator<Integer>() {
             @Override
             public int compare(Integer id1, Integer id2) {
-                int num = 0;
+
                 Author a1 = authors.get(id1);
                 Author a2 = authors.get(id2);
 
-                if (order == Order.Asc) {
-                    num = a1.getName().compareTo(a2.getName());
-                } else if (order == Order.Desc) {
-                    num = a2.getName().compareTo(a1.getName());
+                    int num = 0;
+                    if (order == Order.Asc) {
+                        num = a1.getName().compareTo(a2.getName());
+                    } else if (order == Order.Desc) {
+                        num = a2.getName().compareTo(a1.getName());
+                    }
+
+                    return num;
                 }
 
-                return num;
-            }
         });
+
+        try {
             sortedAuthorMap.putAll(authors);
-            for (Map.Entry<Integer, Author> entry : sortedAuthorMap.entrySet()) {
-                System.out.println(entry.getValue());
-            }
+        } catch (NullPointerException e) {
+            throw new DAOException("Failed to sort authors", e);
+        }
+
+        for (Map.Entry<Integer, Author> entry : sortedAuthorMap.entrySet()) {
+            System.out.println(entry.getValue());
         }
     }
+
+}
 

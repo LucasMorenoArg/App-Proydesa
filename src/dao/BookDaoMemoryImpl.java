@@ -17,52 +17,35 @@ public class BookDaoMemoryImpl implements BookDao {
 
 
     @Override
-    public List<Book> getAll() {
-           List<Book> bcc=null;
-        try {
+    public List<Book> getAll() throws DAOException {
 
-            for (Book b:books){
-                System.out.println(b);
-            }
-            bcc = books;
-        }catch (Exception d){
-            d.getMessage();
-        }
-        return bcc;
+            if (!books.isEmpty()){
+
+                 return books;
+
+            } else throw new DAOException();
 
     }
 
     @Override
-    public Book byId(Integer id)  {
+    public Book byId(Integer id) throws DAOException  {
 
-        Book book=null;
+        if (id !=null && id >= 0){
 
-        try {
-            if (id !=null && id >= 0){
-                book = books.get(id);
-            } else System.out.print("Id no valido");
-        }catch (Exception e){
-            e.getMessage();
-        }
+                return books.get(id);
 
+        } else throw new DAOException();
 
-        return book;
     }
 
     @Override
-    public void create(Book book) {
+    public void create(Book book) throws DAOException {
 
         if (!books.contains(book)){
 
-            try {
-
                 books.add(book);
 
-            }catch (Exception e){
-                e.getMessage();
-            }
-        }else System.out.println("No fue posible guardar el registro");
-
+            } else throw new DAOException("No fue posible crear nuevo Book");
     }
 
     @Override
@@ -70,31 +53,32 @@ public class BookDaoMemoryImpl implements BookDao {
 
         if (books.contains(book1)){
 
-
                 books.remove(book1);
                 books.add(book2);
 
-
-        } else System.out.println("No se pudo actualizar libro solicitado");
+        } else throw new DAOException ("No se pudo actualizar libro solicitado");
 
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(Integer id) throws DAOException{
 
-        if (id != null && id >= 0) {
-            try {
-                books.remove(id);
-            }catch (Exception e){
-                e.getMessage();
-            }
+        if (id != null && books.contains(books.get(id))) {
+
+               int idBook= id.byteValue();
+               books.remove(idBook);
+
+            } else throw new DAOException("No fue posible el borrado del registro");
         }
-    }
+
 
 
     @Override
-    public void getBooksSortedByTitle(Order order) {
+    public void getBooksSortedByTitle(Order order) throws DAOException {
 
+        if (books==null){
+            throw new DAOException("Lista en estado nulo");
+        }
         books.sort(new Comparator<Book>() {
             @Override
             public int compare(Book o1, Book o2) {
@@ -111,9 +95,13 @@ public class BookDaoMemoryImpl implements BookDao {
         }
     }
 
+
     @Override
-    public void getBooksSortedByPrice(Order order) {
-        books.sort(new Comparator<Book>() {
+    public void getBooksSortedByPrice(Order order) throws DAOException{
+        if (books==null){
+            throw new DAOException("Lista en estado nulo");
+
+        } else books.sort(new Comparator<Book>() {
             @Override
             public int compare(Book o1, Book o2) {
                 if (order == Order.Asc){
@@ -123,6 +111,7 @@ public class BookDaoMemoryImpl implements BookDao {
                 } else return 0;
             }
         });
+
         for (Book book: books){
             System.out.println(book);
         }

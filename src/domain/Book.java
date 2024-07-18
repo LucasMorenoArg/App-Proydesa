@@ -3,7 +3,7 @@ package domain;
 public class Book implements Comparable<Book>  {
 
     private static int idGenerator=1;
-    private int bookId;
+    private Integer bookId;
     private String title;
     private double price;
     private Author author;
@@ -22,7 +22,7 @@ public class Book implements Comparable<Book>  {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(Integer bookId) {
         this.bookId = bookId;
     }
 
