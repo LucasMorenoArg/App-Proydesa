@@ -6,15 +6,22 @@ import domain.Order;
 import exceptions.DAOException;
 import services.AuthorDao;
 import services.BookDao;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 
 public class Main {
+    static File file = new File("archivoPrueba.txt"/*,"iso-8859-1"*/);
+    static AuthorDao authorDaoMemory = AuthorDAOFActory.createEmployeeDAO();
+    static BookDao bookDaoMemory = BookDAOFactory.createBookDao();
     public static void main(String[] args){
 
 
-        AuthorDao authorDaoMemory = AuthorDAOFActory.createEmployeeDAO();
-        BookDao bookDaoMemory = BookDAOFactory.createBookDao();
+
 
 
         try {
@@ -33,14 +40,14 @@ public class Main {
             booksSortedByPrice(bookDaoMemory);
             booksSortedByTitle(bookDaoMemory);
             getAllAuthors(authorDaoMemory);
-
+            escribirObjeto();
+            leerObjeto();
         } catch (DAOException daoException){
-            daoException.getMessage();
+            System.out.println(daoException.getMessage());
             daoException.getCause();
             daoException.getStackTrace();
-            daoException.getLocalizedMessage();
+            System.out.println(daoException.getLocalizedMessage());
         }
-
 
     }
 
@@ -110,6 +117,51 @@ public class Main {
     public static void deleteBook(BookDao bookDaoMemory) throws DAOException{
 
         bookDaoMemory.delete(0);
+    }
+
+    public static void escribirObjeto(){
+
+        try (OutputStream fos= new FileOutputStream(file);
+             ObjectOutputStream oos= new ObjectOutputStream(fos)){
+
+             oos.writeObject(authorDaoMemory.getAll());
+
+
+        }catch (IOException e){
+
+        } catch (DAOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void leerObjeto() {
+
+        try (InputStream fis = Files.newInputStream(file.toPath());
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
+
+
+            Author aut= (Author) ois.readObject();
+            Scanner scanner = new Scanner(String.valueOf(aut)).useDelimiter(",");
+            System.out.println("antes de ingresar al scanner");
+            while (scanner.hasNext()){
+
+                String a= scanner.next();
+                System.out.println(a);
+            }
+//          List<Author> newP = (List<Author>) ois.readObject();
+//          ois.defaultReadObject();
+
+//          for (Author p : newP){
+//              System.out.println(p);
+//          }
+
+
+        } catch (IOException i) {
+            System.out.println( i.getMessage());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 }

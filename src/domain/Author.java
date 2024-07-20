@@ -1,6 +1,8 @@
 package domain;
 
-public class Author{
+import java.io.Serializable;
+
+public class Author implements Serializable {
 
     private static int idGenerator =1;
     private int authorId;
