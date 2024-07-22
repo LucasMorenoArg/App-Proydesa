@@ -126,26 +126,24 @@ public class Main {
         try (OutputStream fos= new FileOutputStream(file);
              ObjectOutputStream oos= new ObjectOutputStream(fos)){
             List<Author> authors = new ArrayList<>();
-             //oos.writeObject(authorDaoMemory.getAll());
-             oos.writeObject(authors);
+             oos.writeObject(authorDaoMemory.getAll());
+             //oos.writeObject(authors);
 
         }catch (IOException e){
 
+        } catch (DAOException e) {
+            throw new RuntimeException(e);
         }
     }
 
     public static void leerObjeto() {
 
-        try (InputStream fis = Files.newInputStream(file.toPath());
+        try (InputStream fis = new FileInputStream("archivoPrueba.txt");
              ObjectInputStream ois = new ObjectInputStream(fis)) {
-//             BufferedInputStream bis = new BufferedInputStream(fis);
-//             for (int i=0;i<255;i++){
-//
-//             }
 
             ArrayList<Author> lista = (ArrayList<Author>) ois.readObject();
+            System.out.println(ois.readObject());
 
-            System.out.println(lista.size());
 
 
 
