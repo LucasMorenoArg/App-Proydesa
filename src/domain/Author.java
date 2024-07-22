@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class Author implements Serializable {
 
+    public static final long uid=1l;
+
     private static int idGenerator =1;
     private int authorId;
     private String name;

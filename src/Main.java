@@ -9,9 +9,10 @@ import services.BookDao;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
+
 
 
 public class Main {
@@ -41,6 +42,7 @@ public class Main {
             booksSortedByTitle(bookDaoMemory);
             getAllAuthors(authorDaoMemory);
             escribirObjeto();
+            System.out.println("Leer Objeto");
             leerObjeto();
         } catch (DAOException daoException){
             System.out.println(daoException.getMessage());
@@ -123,14 +125,12 @@ public class Main {
 
         try (OutputStream fos= new FileOutputStream(file);
              ObjectOutputStream oos= new ObjectOutputStream(fos)){
-
-             oos.writeObject(authorDaoMemory.getAll());
-
+            List<Author> authors = new ArrayList<>();
+             //oos.writeObject(authorDaoMemory.getAll());
+             oos.writeObject(authors);
 
         }catch (IOException e){
 
-        } catch (DAOException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -138,22 +138,15 @@ public class Main {
 
         try (InputStream fis = Files.newInputStream(file.toPath());
              ObjectInputStream ois = new ObjectInputStream(fis)) {
+//             BufferedInputStream bis = new BufferedInputStream(fis);
+//             for (int i=0;i<255;i++){
+//
+//             }
 
+            ArrayList<Author> lista = (ArrayList<Author>) ois.readObject();
 
-            Author aut= (Author) ois.readObject();
-            Scanner scanner = new Scanner(String.valueOf(aut)).useDelimiter(",");
-            System.out.println("antes de ingresar al scanner");
-            while (scanner.hasNext()){
+            System.out.println(lista.size());
 
-                String a= scanner.next();
-                System.out.println(a);
-            }
-//          List<Author> newP = (List<Author>) ois.readObject();
-//          ois.defaultReadObject();
-
-//          for (Author p : newP){
-//              System.out.println(p);
-//          }
 
 
         } catch (IOException i) {
