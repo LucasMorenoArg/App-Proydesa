@@ -12,29 +12,13 @@ import java.util.List;
 public class AuthorDaoFileImpl implements AuthorDaoFile {
 
 
-    public ObjectOutputStream configObjectOutput() throws IOException {
-
-        OutputStream fos = new FileOutputStream("archivoPrueba.txt");
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-        return oos;
-    }
-
-    public ObjectInputStream configObjectInput() throws IOException {
-
-        InputStream fis = new FileInputStream("archivoPrueba.txt");
-        ObjectInputStream ois = new ObjectInputStream(fis);
-
-        return ois;
-    }
 
     @Override
-    public void create(Author author) throws IOException {
+    public void create(List<Author> author) throws IOException {
 
         OutputStream fos = new FileOutputStream("archivoPrueba.txt");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(author);
-
 
     }
 
@@ -44,17 +28,19 @@ public class AuthorDaoFileImpl implements AuthorDaoFile {
 
         InputStream fis = new FileInputStream("archivoPrueba.txt");
         ObjectInputStream ois = new ObjectInputStream(fis);
-        //Object i = configObjectInput().readObject();
         ArrayList<Author> lista = (ArrayList<Author>) ois.readObject();
 
-        System.out.println(lista);
+        for (Author l:lista){
+            System.out.println(l);
+        }
 
-        return lista;
+        return null;
     }
 
 
     @Override
         public void writeFile () throws DAOException {
+
 
         }
 

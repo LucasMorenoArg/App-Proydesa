@@ -11,7 +11,7 @@ import java.util.Map;
 
 public interface AuthorDaoFile {
 
-    void create(Author author) throws DAOException, IOException;
+    void create(List<Author> author) throws DAOException, IOException;
     List<Author> getAll() throws DAOException, IOException, ClassNotFoundException;
     void writeFile() throws DAOException;
     void readFile() throws DAOException;

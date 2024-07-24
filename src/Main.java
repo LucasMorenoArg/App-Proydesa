@@ -1,6 +1,5 @@
 import dao.AuthorDaoFactory;
 import dao.AuthorDaoFileFactory;
-import dao.AuthorDaoFileImpl;
 import dao.BookDAOFactory;
 import domain.Author;
 import domain.Book;
@@ -29,6 +28,7 @@ public class Main {
 
             //Creacion de Autores y libros
             createAuthor(authorDaoMemory);
+            createAuthorFile(authorDaoFile, authorDaoMemory);
             createBook(bookDaoMemory, authorDaoMemory);
 
             //Actualización  y eliminacion de Autores y libros
@@ -41,9 +41,8 @@ public class Main {
             booksSortedByPrice(bookDaoMemory);
             booksSortedByTitle(bookDaoMemory);
             getAllAuthors(authorDaoMemory);
-            writeFile(authorDaoFile);
             System.out.println("Lectura en archivo");
-            createAuthorFile(authorDaoFile);
+
             readFiles(authorDaoFile);
 
         } catch (DAOException daoException){
@@ -131,25 +130,25 @@ public class Main {
             bookDaoMemory.delete(0);
     }
 
-    public static void createAuthorFile(AuthorDaoFile authorDaoFile) throws DAOException, IOException {
+    public static void createAuthorFile(AuthorDaoFile authorDaoFile, AuthorDao authorDaoMemory) throws DAOException, IOException {
 
 
-            authorDaoFile.create(byIds(authorDaoMemory, 1));
-            authorDaoFile.create(byIds(authorDaoMemory, 2));
-            authorDaoFile.create(byIds(authorDaoMemory, 3));
+                List<Author> lista = new ArrayList<>();
+                lista.add(authorDaoMemory.byId(1));
+                lista.add(authorDaoMemory.byId(2));
+                lista.add(authorDaoMemory.byId(3));
+
+                authorDaoFile.create(lista);
 
     }
-
-
-    public static void writeFile(AuthorDaoFile authorDaoFile) throws DAOException {
-                }
 
 
 
     public static void readFiles(AuthorDaoFile authorDaoFile) throws DAOException, IOException, ClassNotFoundException {
 
+         authorDaoFile.getAll();
         //Author i = byIds(authorDaoMemory,1);
-        authorDaoFile.getAll();
+        //authorDaoFile.getAll();
         //System.out.println(i);
     }
 
