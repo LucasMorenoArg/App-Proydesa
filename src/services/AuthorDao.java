@@ -14,6 +14,7 @@ public interface AuthorDao {
     void create(Author author) throws DAOException;
     void update(Author author, String nombre, String email) throws DAOException;
     void getAuthorsSortedByName(Order order) throws DAOException;
+
     void delete(Integer id)throws DAOException;
 
 }

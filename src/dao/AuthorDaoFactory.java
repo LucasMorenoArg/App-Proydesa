@@ -2,7 +2,7 @@ package dao;
 
 import services.AuthorDao;
 
-public class AuthorDAOFActory {
+public class AuthorDaoFactory {
 
     public static AuthorDao createEmployeeDAO() {
         AuthorDao dao = null;
