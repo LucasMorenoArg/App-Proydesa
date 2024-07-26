@@ -1,6 +1,10 @@
 package domain;
 
-public class Book implements Comparable<Book>  {
+import java.io.Serializable;
+
+public class Book implements Comparable<Book>, Serializable {
+
+    public static final long uid=1l;
 
     private static int idGenerator=1;
     private Integer bookId;

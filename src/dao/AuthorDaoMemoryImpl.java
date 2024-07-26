@@ -87,7 +87,7 @@ public class AuthorDaoMemoryImpl implements AuthorDao{
     @Override
     public void getAuthorsSortedByName(Order order) throws DAOException {
         if (authors == null) {
-            throw new DAOException("Authors collection is null");
+            throw new DAOException("Lista de autores no puede ser nula");
         }
 
         TreeMap<Integer, Author> sortedAuthorMap = new TreeMap<>(new Comparator<Integer>() {

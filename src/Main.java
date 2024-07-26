@@ -1,6 +1,4 @@
-import dao.AuthorDaoFactory;
-import dao.AuthorDaoFileFactory;
-import dao.BookDAOFactory;
+import dao.*;
 import domain.Author;
 import domain.Book;
 import domain.Order;
@@ -8,6 +6,7 @@ import exceptions.DAOException;
 import services.AuthorDao;
 import services.AuthorDaoFile;
 import services.BookDao;
+import services.BookDaoFile;
 
 import java.io.*;
 import java.util.*;
@@ -19,19 +18,23 @@ public class Main {
     static AuthorDao authorDaoMemory = AuthorDaoFactory.createEmployeeDAO();
     static AuthorDaoFile authorDaoFile = AuthorDaoFileFactory.createDaoFile();
     static BookDao bookDaoMemory = BookDAOFactory.createBookDao();
-
-
+    static BookDaoFile bookDaoFile = BookDaoFileFactory.createDaoFile();
     public static void main(String[] args){
 
 
         try {
 
-            //Creacion de Autores y libros
+            //Creación de autores y libros en memoria
             createAuthor(authorDaoMemory);
-            createAuthorFile(authorDaoFile, authorDaoMemory);
             createBook(bookDaoMemory, authorDaoMemory);
+            //Creación de autores y libros en archivo
+            createAuthorFile(authorDaoFile, authorDaoMemory);
+            createBookFile(bookDaoFile, bookDaoMemory);
 
-            //Actualización  y eliminacion de Autores y libros
+            //Creación de autores y libros en BBDD
+
+
+            //Actualización  y eliminación de autores y libros
             updateAuthor(authorDaoMemory);
             updateBook(bookDaoMemory, authorDaoMemory);
             getAllBooks(bookDaoMemory);
@@ -42,17 +45,15 @@ public class Main {
             booksSortedByTitle(bookDaoMemory);
             getAllAuthors(authorDaoMemory);
             System.out.println("Lectura en archivo");
-
-            readFiles(authorDaoFile);
+            readBookFile(authorDaoFile);
+            System.out.println("byId");
+            getBookId(1, bookDaoFile);
 
         } catch (DAOException daoException){
 
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println(e.getMessage());
+            //throw new RuntimeException(e);
         }
     }
 
@@ -132,25 +133,43 @@ public class Main {
 
     public static void createAuthorFile(AuthorDaoFile authorDaoFile, AuthorDao authorDaoMemory) throws DAOException, IOException {
 
+        List<Author> lista = new ArrayList<>();
+        lista.add(authorDaoMemory.byId(1));
+        lista.add(authorDaoMemory.byId(2));
+        lista.add(authorDaoMemory.byId(3));
 
-                List<Author> lista = new ArrayList<>();
-                lista.add(authorDaoMemory.byId(1));
-                lista.add(authorDaoMemory.byId(2));
-                lista.add(authorDaoMemory.byId(3));
+        authorDaoFile.create(lista);
 
-                authorDaoFile.create(lista);
+    }
+
+    public static void readBookFile(AuthorDaoFile authorDaoFile) throws DAOException, IOException, ClassNotFoundException {
+
+        List<Author> lista =  authorDaoFile.getAll();
+
+        for (Author author:lista){
+            System.out.println(author);
+        }
+
+    }
+
+    public static void createBookFile(BookDaoFile bookDaoFile, BookDao bookDao) throws DAOException, IOException, ClassNotFoundException {
+
+        List<Book> lista = new ArrayList<>();
+        lista.add(bookDao.byId(0));
+        lista.add(bookDao.byId(1));
+        lista.add(bookDao.byId(2));
+        bookDaoFile.create(lista);
+
+    }
+
+    public static void getBookId(Integer id, BookDaoFile bookDaoFile) throws DAOException, IOException, ClassNotFoundException {
+
+
+        System.out.println(bookDaoFile.byId(id));
 
     }
 
 
-
-    public static void readFiles(AuthorDaoFile authorDaoFile) throws DAOException, IOException, ClassNotFoundException {
-
-         authorDaoFile.getAll();
-        //Author i = byIds(authorDaoMemory,1);
-        //authorDaoFile.getAll();
-        //System.out.println(i);
-    }
 
 
 
