@@ -23,6 +23,16 @@ public class AuthorDaoMemoryImpl implements AuthorDao{
         authors = new HashMap<>();
     }
 
+    @Override
+    public void create(Author author) throws DAOException {
+
+        if (!authors.containsKey(author.getAuthorId())) {
+
+            authors.put(author.getAuthorId(), author);
+        }
+        else throw new DAOException();
+    }
+
 
     @Override
     public Map<Integer,Author> getAll() throws DAOException{
@@ -46,17 +56,6 @@ public class AuthorDaoMemoryImpl implements AuthorDao{
         } else throw new DAOException();
 
     }
-
-    @Override
-    public void create(Author author) throws DAOException {
-
-      if (!authors.containsKey(author.getAuthorId())) {
-
-              authors.put(author.getAuthorId(), author);
-         }
-        else throw new DAOException();
-    }
-
 
     @Override
     public void update(Author author,String nombre,String email) throws DAOException{
