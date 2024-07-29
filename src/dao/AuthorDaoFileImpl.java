@@ -1,5 +1,6 @@
 package dao;
 
+import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 import domain.Author;
 
 import domain.Order;
@@ -15,75 +16,47 @@ import java.util.List;
 
 public class AuthorDaoFileImpl implements AuthorDaoFile, Comparator<Author> {
 
+    private final SingletonFile singletonFile = SingletonFile.getSingletonFile();
 
-    private List<Author> getObjectFileList() throws IOException, ClassNotFoundException {
-        InputStream fis = new FileInputStream("AuthorDaoFile.txt");
-        ObjectInputStream ois = new ObjectInputStream(fis);
-
-        ArrayList<Author> lista = (ArrayList<Author>) ois.readObject();
-
-        return lista;
-    }
-
-    private ObjectOutputStream objectOutputStream ( ) throws IOException {
-        OutputStream fos = new FileOutputStream("AuthorDaoFile.txt");
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-        return oos;
-    }
 
     @Override
     public Author byId(Integer id) throws DAOException, IOException, ClassNotFoundException {
 
-        ArrayList<Author> lista = (ArrayList<Author>) getObjectFileList();
-
-        return lista.get(id);
+        return singletonFile.getObjectFileList().get(id);
     }
 
     @Override
-    public List<Author>
-    update(Author author1, Author author2) throws DAOException, IOException, ClassNotFoundException {
-        System.out.println(author1.getAuthorId());
+    public List<Author> update(Author author1, Author author2) throws DAOException, IOException, ClassNotFoundException {
+
+
         if ( author1 !=null && author2 != null) {
 
-            deleteId(0);
-
+            return singletonFile.getObjectFileList();
         }
 
-        for (Author a:getObjectFileList()){
-            System.out.println(a);}
-        objectOutputStream().reset();
-        objectOutputStream().writeObject(getObjectFileList());
-        for (Author a : getObjectFileList()){
-            System.out.println(a);
-        }
-        return getObjectFileList();
+        return null;
     }
 
     @Override
     public void create(List<Author> author) throws IOException {
 
-        objectOutputStream().writeObject(author);
+        singletonFile.objectOutputStream(author);
 
     }
 
     @Override
     public List<Author> getAllAuthors() throws IOException, ClassNotFoundException {
 
-        ArrayList<Author> lista = (ArrayList<Author>) getObjectFileList();
-
-        return lista;
+        System.out.println("getAllAuthorsfromFile");
+        System.out.println(singletonFile.getObjectFileList().hashCode());
+        return singletonFile.getObjectFileList();
     }
 
 
     @Override
     public void getAuthorsSortedByName(Order order) throws DAOException, IOException, ClassNotFoundException {
 
-        InputStream fis = new FileInputStream("AuthorDaoFile.txt");
-        ObjectInputStream ois = new ObjectInputStream(fis);
-
-        ArrayList<Author> lista = (ArrayList<Author>) ois.readObject();
-
+        List<Author> lista = singletonFile.getObjectFileList();
         Collections.sort(lista, new AuthorDaoFileImpl());
 
         for (Author author : lista ){
@@ -93,9 +66,15 @@ public class AuthorDaoFileImpl implements AuthorDaoFile, Comparator<Author> {
     }
 
     @Override
-    public void deleteId(Integer id) throws DAOException, IOException, ClassNotFoundException {
+    public void deleteId(int id) throws DAOException, IOException, ClassNotFoundException {
 
-        getObjectFileList().remove(0);
+        singletonFile.getObjectFileList().remove(id);
+
+        singletonFile.objectOutputStream(singletonFile.getObjectFileList());
+
+        for(Author author:singletonFile.getObjectFileList()){
+            System.out.println(author);
+        }
     }
 
     @Override

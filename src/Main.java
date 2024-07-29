@@ -61,8 +61,10 @@ public class Main {
               createAuthorFile(authorDaoFile,authorDaoMemory);
     //        authorByIdDaoFile(1,authorDaoFile);
               updateAuthorDaoFile(authorDaoFile);
-    //        sortedAuthorsByNameFile(authorDaoFile);
-              //getAllAuthorsDaoFile(authorDaoFile);
+    //          authorByIdDaoFile(0,authorDaoFile);
+     //         sortedAuthorsByNameFile(authorDaoFile);
+    //          getAllAuthorsDaoFile(authorDaoFile);
+                deleteAuthorId(1,authorDaoFile);
 
 
 
@@ -190,10 +192,16 @@ public class Main {
         Author author2 = authorDaoFile.byId(0);
         author2.setName("Juan Lopez");
         author2.setEmail("JLopez@gmail.com");
-        authorDaoFile.update(author1, author2);
+        System.out.println("Update Authors");
+        for (Author author: authorDaoFile.update(author1, author2)){
+            System.out.println(author);
+        }
 
+    }
 
+    public static void deleteAuthorId(int id, AuthorDaoFile authorDaoFile) throws DAOException, IOException, ClassNotFoundException {
 
+        authorDaoFile.deleteId(id);
     }
 
     public static void sortedAuthorsByNameFile(AuthorDaoFile authorDaoFile) throws DAOException, IOException, ClassNotFoundException {
