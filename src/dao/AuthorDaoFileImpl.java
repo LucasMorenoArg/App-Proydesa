@@ -1,6 +1,5 @@
 package dao;
 
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 import domain.Author;
 
 import domain.Order;
@@ -8,13 +7,12 @@ import exceptions.DAOException;
 import services.AuthorDaoFile;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 
-public class AuthorDaoFileImpl implements AuthorDaoFile, Comparator<Author> {
+public class AuthorDaoFileImpl implements AuthorDaoFile, Comparator<Author>{
 
     private final SingletonFile singletonFile = SingletonFile.getSingletonFile();
 
@@ -22,25 +20,20 @@ public class AuthorDaoFileImpl implements AuthorDaoFile, Comparator<Author> {
     @Override
     public Author byId(Integer id) throws DAOException, IOException, ClassNotFoundException {
 
-        return singletonFile.getObjectFileList().get(id);
+        return singletonFile.readList().get(id);
     }
 
     @Override
     public List<Author> update(Author author1, Author author2) throws DAOException, IOException, ClassNotFoundException {
 
 
-        if ( author1 !=null && author2 != null) {
-
-            return singletonFile.getObjectFileList();
-        }
-
-        return null;
+        return singletonFile.readList();
     }
 
     @Override
     public void create(List<Author> author) throws IOException {
 
-        singletonFile.objectOutputStream(author);
+        singletonFile.writeList(author);
 
     }
 
@@ -48,15 +41,15 @@ public class AuthorDaoFileImpl implements AuthorDaoFile, Comparator<Author> {
     public List<Author> getAllAuthors() throws IOException, ClassNotFoundException {
 
         System.out.println("getAllAuthorsfromFile");
-        System.out.println(singletonFile.getObjectFileList().hashCode());
-        return singletonFile.getObjectFileList();
+
+        return singletonFile.readList();
     }
 
 
     @Override
     public void getAuthorsSortedByName(Order order) throws DAOException, IOException, ClassNotFoundException {
 
-        List<Author> lista = singletonFile.getObjectFileList();
+        List<Author> lista = singletonFile.readList();
         Collections.sort(lista, new AuthorDaoFileImpl());
 
         for (Author author : lista ){
@@ -68,11 +61,11 @@ public class AuthorDaoFileImpl implements AuthorDaoFile, Comparator<Author> {
     @Override
     public void deleteId(int id) throws DAOException, IOException, ClassNotFoundException {
 
-        singletonFile.getObjectFileList().remove(id);
+        singletonFile.readList().remove(id);
 
-        singletonFile.objectOutputStream(singletonFile.getObjectFileList());
+        singletonFile.writeList(singletonFile.readList());
 
-        for(Author author:singletonFile.getObjectFileList()){
+        for(Author author:singletonFile.readList()){
             System.out.println(author);
         }
     }

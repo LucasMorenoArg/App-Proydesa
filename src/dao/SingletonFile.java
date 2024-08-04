@@ -3,17 +3,19 @@ package dao;
 import domain.Author;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 
 public class SingletonFile {
 
     public static SingletonFile singletonFile;
 
-    private ArrayList<Author> lista;
+
 
     public static SingletonFile getSingletonFile(){
+
         if (singletonFile == null){
 
             singletonFile = new SingletonFile();
@@ -21,19 +23,19 @@ public class SingletonFile {
         return singletonFile;
     }
 
-    public List<Author> getObjectFileList() throws IOException, ClassNotFoundException {
-        InputStream fis = new FileInputStream("AuthorDaoFile.txt");
-        ObjectInputStream ois = new ObjectInputStream(fis);
+    public List<Author> readList() throws IOException, ClassNotFoundException {
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("AuthorDaoFile.txt"));
 
-        lista = (ArrayList<Author>) ois.readObject();
+        List<Author> lista = (List<Author>) ois.readObject();
+        ois.close();
 
         return lista;
     }
 
-    public ObjectOutputStream objectOutputStream (List<Author> lista ) throws IOException {
-        OutputStream fos = new FileOutputStream("AuthorDaoFile.txt");
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
+    public void writeList(List<Author> lista) throws IOException {
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("AuthorDaoFile.txt"));
+
         oos.writeObject(lista);
-        return oos;
+        oos.close();
     }
 }
