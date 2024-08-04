@@ -17,6 +17,7 @@ public class Main {
 
     static AuthorDao authorDaoMemory = AuthorDaoMemoryFactory.createEmployeeDAO();
     static AuthorDaoFile authorDaoFile = AuthorDaoFileFactory.createDaoFile();
+    static AuthorDao authorDaoBBDD = AuthorDaoBBDDFactory.createDaoBBDD();
     static BookDao bookDaoMemory = BookDAOFactory.createBookDao();
     static BookDaoFile bookDaoFile = BookDaoFileFactory.createDaoFile();
 
