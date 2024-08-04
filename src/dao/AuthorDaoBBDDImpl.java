@@ -18,8 +18,8 @@ public class AuthorDaoBBDDImpl implements AuthorDao {
         DriverManager.getConnection("jdbc:mysql://localhost:3306/pruebatec",
         "root", "root");
         Statement statement = conn.createStatement();
-        ResultSet rs = statement.executeQuery("select * from tmp_items");
-        return rs;
+        return statement.executeQuery("select * from tmp_items");
+
     } catch (SQLException e){
         throw new RuntimeException(e);
     }
