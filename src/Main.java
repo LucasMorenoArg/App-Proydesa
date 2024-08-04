@@ -9,21 +9,19 @@ import services.BookDao;
 import services.BookDaoFile;
 
 import java.io.*;
-import java.sql.SQLOutput;
 import java.util.*;
 
 
 
 public class Main {
 
-    static AuthorDao authorDaoMemory = AuthorDaoFactory.createEmployeeDAO();
+    static AuthorDao authorDaoMemory = AuthorDaoMemoryFactory.createEmployeeDAO();
     static AuthorDaoFile authorDaoFile = AuthorDaoFileFactory.createDaoFile();
     static BookDao bookDaoMemory = BookDAOFactory.createBookDao();
     static BookDaoFile bookDaoFile = BookDaoFileFactory.createDaoFile();
 
 
     public static void main(String[] args){
-
 
         try {
 
@@ -59,12 +57,11 @@ public class Main {
             //Actualización  y eliminación de autores y libros en archivo.
 
               createAuthorFile(authorDaoFile,authorDaoMemory);
-    //        authorByIdDaoFile(1,authorDaoFile);
+     //       authorByIdDaoFile(1,authorDaoFile);
               updateAuthorDaoFile(authorDaoFile);
     //          authorByIdDaoFile(0,authorDaoFile);
      //         sortedAuthorsByNameFile(authorDaoFile);
-    //          getAllAuthorsDaoFile(authorDaoFile);
-                deleteAuthorId(1,authorDaoFile);
+//
 
 
 
@@ -188,13 +185,15 @@ public class Main {
 
     public static void updateAuthorDaoFile(AuthorDaoFile authorDaoFile) throws DAOException, IOException, ClassNotFoundException {
 
+
         Author author1 = authorDaoFile.byId(0);
         Author author2 = authorDaoFile.byId(0);
         author2.setName("Juan Lopez");
         author2.setEmail("JLopez@gmail.com");
         System.out.println("Update Authors");
+
         for (Author author: authorDaoFile.update(author1, author2)){
-            System.out.println(author);
+            System.out.println(author + "1");
         }
 
     }
