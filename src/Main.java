@@ -3,10 +3,7 @@ import domain.Author;
 import domain.Book;
 import domain.Order;
 import exceptions.DAOException;
-import services.AuthorDao;
-import services.AuthorDaoFile;
-import services.BookDao;
-import services.BookDaoFile;
+import services.*;
 
 import java.io.*;
 import java.util.*;
@@ -17,7 +14,7 @@ public class Main {
 
     static AuthorDao authorDaoMemory = AuthorDaoMemoryFactory.createEmployeeDAO();
     static AuthorDaoFile authorDaoFile = AuthorDaoFileFactory.createDaoFile();
-    static AuthorDao authorDaoBBDD = AuthorDaoBBDDFactory.createDaoBBDD();
+    static AuthorDaoBBDD authorDaoBBDD = AuthorDaoBBDDFactory.createDaoBBDD();
     static BookDao bookDaoMemory = BookDAOFactory.createBookDao();
     static BookDaoFile bookDaoFile = BookDaoFileFactory.createDaoFile();
 
@@ -36,7 +33,7 @@ public class Main {
             //Creación de autores y libros en BBDD
 
 
-            //Actualización  y eliminación de autores y libros en memoria.
+            //Actualización y eliminación de autores y libros en memoria.
 //            updateAuthor(authorDaoMemory);
 //            updateBook(bookDaoMemory, authorDaoMemory);
 //            getAllBooks(bookDaoMemory);
@@ -59,16 +56,25 @@ public class Main {
 
               createAuthorFile(authorDaoFile,authorDaoMemory);
      //       authorByIdDaoFile(1,authorDaoFile);
-              updateAuthorDaoFile(authorDaoFile);
+     //         updateAuthorDaoFile(authorDaoFile);
     //          authorByIdDaoFile(0,authorDaoFile);
      //         sortedAuthorsByNameFile(authorDaoFile);
 //
+
+            //Actualización  y eliminación de autores y libros en BBDD
+
+            //createAuthorBBDD(authorDaoBBDD);
+            authorById(authorDaoBBDD);
+            updateAuthor(authorDaoBBDD);
+            deleteAuthor(authorDaoBBDD);
+            getAllAuthor(authorDaoBBDD);
+
 
 
 
 
         } catch (DAOException daoException){
-
+            System.out.println(daoException.getMessage());
         } catch (IOException | ClassNotFoundException e) {
             System.out.println(e.getMessage());
             //throw new RuntimeException(e);
@@ -237,7 +243,44 @@ public class Main {
 
     }
 
+    //------------------------AuthorDaoBBDD--------------------------------------------------------------
+    //------------------------AuthorDaoBBDD--------------------------------------------------------------
 
+    public static void createAuthorBBDD(AuthorDaoBBDD authorDaoBBDD) throws DAOException {
+
+//        Author a1= authorDaoMemory.byId(1);
+//        Author a2= authorDaoMemory.byId(2);
+//        Author a3= authorDaoMemory.byId(3);
+//        authorDaoBBDD.create(a1);
+//        authorDaoBBDD.create(a2);
+//        authorDaoBBDD.create(a3);
+
+    }
+
+    public static void getAllAuthor(AuthorDaoBBDD authorDaoBBDD) throws DAOException {
+
+        authorDaoBBDD.getAll();
+    }
+
+    public static void authorById(AuthorDaoBBDD authorDaoBBDD) throws DAOException {
+
+        System.out.println(authorDaoBBDD.byId(1));
+        System.out.println(authorDaoBBDD.byId(2));
+        System.out.println(authorDaoBBDD.byId(3));
+    }
+
+    public static void updateAuthor(AuthorDaoBBDD authorDaoBBDD) throws DAOException {
+
+        Author a1= authorDaoMemory.byId(1);
+        a1.setName("Juan Martinez");
+        a1.setEmail("jMartinez@gmail.com");
+        authorDaoBBDD.update(a1);
+    }
+
+    public static void deleteAuthor(AuthorDaoBBDD authorDaoBBDD) throws DAOException {
+
+        authorDaoBBDD.delete(3);
+    }
 
 
 

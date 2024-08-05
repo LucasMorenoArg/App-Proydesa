@@ -22,9 +22,6 @@ public class Author implements Serializable {
         return authorId;
     }
 
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
-    }
 
     public String getName() {
         return name;

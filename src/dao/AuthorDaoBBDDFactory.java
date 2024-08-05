@@ -1,16 +1,17 @@
 package dao;
 
 import services.AuthorDao;
+import services.AuthorDaoBBDD;
 import services.AuthorDaoFile;
 
 public class AuthorDaoBBDDFactory {
 
 
-    public static AuthorDao createDaoBBDD(){
-        AuthorDao dao= null;
+    public static AuthorDaoBBDD createDaoBBDD(){
+        AuthorDaoBBDD dao= null;
         try {
             Class<?> clazz = Class.forName("dao.AuthorDaoBBDDImpl");
-            dao= (AuthorDao) clazz.newInstance();
+            dao= (AuthorDaoBBDD) clazz.newInstance();
         }catch (Exception error){
             error.getMessage();
         }
