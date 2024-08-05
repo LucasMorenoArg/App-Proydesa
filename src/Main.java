@@ -70,12 +70,12 @@ public class Main {
             //createBookBBDD(authorDaoBBDD);
 
             //createAuthorBBDD(authorDaoBBDD);
-            //getAllAuthor(authorDaoBBDD);
+            getAllAuthor(authorDaoBBDD);
             //createBookBBDD(bookDaoBBDD);
            // deleteAuthor(authorDaoBBDD);
-     //     bookById(bookDaoBBDD);
+          bookById(bookDaoBBDD);
     //      deleteBookId(bookDaoBBDD);
-            getBooksSortedByTitle(bookDaoBBDD);
+            //getBooksSortedByTitle(bookDaoBBDD);
 
 
 
