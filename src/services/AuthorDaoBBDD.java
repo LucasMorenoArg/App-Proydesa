@@ -4,8 +4,6 @@ import domain.Author;
 import domain.Order;
 import exceptions.DAOException;
 
-import java.util.Map;
-
 public interface AuthorDaoBBDD {
 
     void getAll() throws DAOException;
@@ -13,5 +11,5 @@ public interface AuthorDaoBBDD {
     void create(Author author) throws DAOException;
     void update(Author author) throws DAOException;
     void getAuthorsSortedByName(Order order) throws DAOException;
-    void delete(Integer id)throws DAOException;
+    void deleteAuthorById(Integer id)throws DAOException;
 }

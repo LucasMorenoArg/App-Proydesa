@@ -17,6 +17,7 @@ public class Main {
     static AuthorDaoBBDD authorDaoBBDD = AuthorDaoBBDDFactory.createDaoBBDD();
     static BookDao bookDaoMemory = BookDAOFactory.createBookDao();
     static BookDaoFile bookDaoFile = BookDaoFileFactory.createDaoFile();
+    static BookDaoBBDD bookDaoBBDD = BookDaoBBDDFactory.createBookDaoBBDD();
 
 
     public static void main(String[] args){
@@ -27,8 +28,8 @@ public class Main {
             createAuthor(authorDaoMemory);
             createBook(bookDaoMemory, authorDaoMemory);
             //Creación de autores y libros en archivo
-            createAuthorFile(authorDaoFile, authorDaoMemory);
-            createBookFile(bookDaoFile, bookDaoMemory);
+ //          createAuthorFile(authorDaoFile, authorDaoMemory);
+ //          createBookFile(bookDaoFile, bookDaoMemory);
 
             //Creación de autores y libros en BBDD
 
@@ -54,30 +55,32 @@ public class Main {
 
             //Actualización  y eliminación de autores y libros en archivo.
 
-              createAuthorFile(authorDaoFile,authorDaoMemory);
-     //       authorByIdDaoFile(1,authorDaoFile);
+     //         createAuthorFile(authorDaoFile,authorDaoMemory);
+     //         authorByIdDaoFile(1,authorDaoFile);
      //         updateAuthorDaoFile(authorDaoFile);
-    //          authorByIdDaoFile(0,authorDaoFile);
+     //         authorByIdDaoFile(0,authorDaoFile);
      //         sortedAuthorsByNameFile(authorDaoFile);
-//
+
 
             //Actualización  y eliminación de autores y libros en BBDD
 
+            //authorById(authorDaoBBDD);
+            //updateAuthor(authorDaoBBDD);
+            //deleteAuthor(authorDaoBBDD);
+            //createBookBBDD(authorDaoBBDD);
+
             //createAuthorBBDD(authorDaoBBDD);
-            authorById(authorDaoBBDD);
-            updateAuthor(authorDaoBBDD);
-            deleteAuthor(authorDaoBBDD);
-            getAllAuthor(authorDaoBBDD);
-
-
+            //getAllAuthor(authorDaoBBDD);
+            //createBookBBDD(bookDaoBBDD);
+           // deleteAuthor(authorDaoBBDD);
+     //     bookById(bookDaoBBDD);
+    //      deleteBookId(bookDaoBBDD);
+            getBooksSortedByTitle(bookDaoBBDD);
 
 
 
         } catch (DAOException daoException){
             System.out.println(daoException.getMessage());
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println(e.getMessage());
-            //throw new RuntimeException(e);
         }
     }
 
@@ -180,7 +183,7 @@ public class Main {
 
     public static void authorByIdDaoFile(Integer id, AuthorDaoFile authorDaoFile) throws DAOException, IOException, ClassNotFoundException {
 
-        System.out.println(authorDaoFile.byId(id));
+         System.out.println(authorDaoFile.byId(id));
     }
 
     public static void getAllAuthorsDaoFile(AuthorDaoFile authorDaoFile) throws DAOException, IOException, ClassNotFoundException {
@@ -248,12 +251,12 @@ public class Main {
 
     public static void createAuthorBBDD(AuthorDaoBBDD authorDaoBBDD) throws DAOException {
 
-//        Author a1= authorDaoMemory.byId(1);
-//        Author a2= authorDaoMemory.byId(2);
-//        Author a3= authorDaoMemory.byId(3);
-//        authorDaoBBDD.create(a1);
-//        authorDaoBBDD.create(a2);
-//        authorDaoBBDD.create(a3);
+        Author a1= authorDaoMemory.byId(1);
+        Author a2= authorDaoMemory.byId(2);
+        Author a3= authorDaoMemory.byId(3);
+        authorDaoBBDD.create(a1);
+        authorDaoBBDD.create(a2);
+        authorDaoBBDD.create(a3);
 
     }
 
@@ -279,11 +282,46 @@ public class Main {
 
     public static void deleteAuthor(AuthorDaoBBDD authorDaoBBDD) throws DAOException {
 
-        authorDaoBBDD.delete(3);
+        authorDaoBBDD.deleteAuthorById(0);
     }
 
+    //------------------------BookDaoBBDD--------------------------------------------------------------
+    //------------------------BookDaoBBDD--------------------------------------------------------------
 
+    public static void createBookBBDD(BookDaoBBDD bookDaoBBDD) throws DAOException {
+        Book book1 = bookDaoMemory.byId(0);
+        Book book2 = bookDaoMemory.byId(1);
+        Book book3 = bookDaoMemory.byId(2);
+        bookDaoBBDD.create(book1);
+        bookDaoBBDD.create(book2);
+        bookDaoBBDD.create(book3);
+
+
+    }
+
+    public static void bookById(BookDaoBBDD bookDaoBBDD) throws DAOException {
+
+        System.out.println(bookDaoBBDD.byId(1));
+
+    }
+
+    public static void deleteBookId(BookDaoBBDD bookDaoBBDD) throws DAOException {
+
+        bookDaoBBDD.delete(1);
+    }
+
+    public static void getBooksSortedByTitle(BookDaoBBDD bookDaoBBDD) throws DAOException {
+
+
+        List<String> list = bookDaoBBDD.getBooksSortedByTitle(Order.Asc);
+
+        for (String l :list){
+            System.out.println(l);
+        }
+
+    }
 
 }
+
 
 

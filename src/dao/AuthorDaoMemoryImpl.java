@@ -53,7 +53,7 @@ public class AuthorDaoMemoryImpl implements AuthorDao{
 
             return authors.get(id);
 
-        } else throw new DAOException();
+        } else throw new DAOException("No se encontró Id");
 
     }
 

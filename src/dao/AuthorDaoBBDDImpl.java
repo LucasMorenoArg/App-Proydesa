@@ -3,31 +3,13 @@ package dao;
 import domain.Author;
 import domain.Order;
 import exceptions.DAOException;
-import org.w3c.dom.ls.LSOutput;
-import services.AuthorDao;
 import services.AuthorDaoBBDD;
 
 import java.sql.*;
-import java.util.Map;
 
 public class AuthorDaoBBDDImpl implements AuthorDaoBBDD {
 
-    public ResultSet connection(){
 
-    try {
-
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/author",
-        "root", "root");
-        Statement statement = conn.createStatement();
-        ResultSet rs;
-        rs = null;
-        return rs;
-
-    } catch (SQLException e){
-        throw new RuntimeException(e);
-    }
-
-    }
     @Override
     public void getAll() throws DAOException {
 
@@ -140,22 +122,39 @@ public class AuthorDaoBBDDImpl implements AuthorDaoBBDD {
     }
 
     @Override
-    public void delete(Integer id) throws DAOException {
-        String deleteSQL = "DELETE FROM Author WHERE authorId = ?";
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/proydesa", "root", "root");
-             PreparedStatement preparedStatement = conn.prepareStatement(deleteSQL)) {
+    public void deleteAuthorById(Integer id) throws DAOException {
 
-            preparedStatement.setInt(1, id);
 
-            int rowsAffected = preparedStatement.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Autor eliminado exitosamente con ID: " + id);
-            } else {
-                System.out.println("No se encontró ningún autor con el ID proporcionado: " + id);
+        String deleteBooksSQL = "DELETE FROM Book WHERE authorId = ?";
+        String deleteAuthorSQL = "DELETE FROM Author WHERE authorId = ?";
+
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/proydesa", "root", "root")) {
+            // Iniciar la transacción
+            conn.setAutoCommit(false);
+
+            // Eliminar libros asociados al autor
+            try (PreparedStatement deleteBooksStmt = conn.prepareStatement(deleteBooksSQL)) {
+                deleteBooksStmt.setInt(1,id);
+                deleteBooksStmt.executeUpdate();
             }
 
+            // Eliminar el autor
+            try (PreparedStatement deleteAuthorStmt = conn.prepareStatement(deleteAuthorSQL)) {
+                deleteAuthorStmt.setInt(1, id);
+                deleteAuthorStmt.executeUpdate();
+            }
+
+            // Confirmar la transacción
+            conn.commit();
+
         } catch (SQLException e) {
-            throw new DAOException("Error al eliminar el autor");
+            // En caso de error, deshacer la transacción
+            try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/proydesa", "root", "root")) {
+                conn.rollback();
+            } catch (SQLException rollbackEx) {
+                throw new DAOException("Error al deshacer la transacción");
+            }
+            throw new DAOException("Error al eliminar el autor y sus libros asociados");
         }
     }
 }
