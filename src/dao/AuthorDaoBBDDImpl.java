@@ -24,49 +24,50 @@ public class AuthorDaoBBDDImpl implements AuthorDaoBBDD {
                 String email = resultSet.getString("email");
 
                 System.out.println("Id:" + authorId);
-                System.out.println("Nombre:" +name);
+                System.out.println("Nombre:" + name);
                 System.out.println("Email:" + email);
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             //throw new DAOException("Error al recuperar todos los autores");
             System.out.println("Sql state: " + e.getSQLState());
             System.out.println("Error code: " + e.getErrorCode());
             System.out.println("Message: " + e.getMessage());
 
             Throwable t = e.getCause();
-            while(t!=null){
+            while (t != null) {
                 System.out.println("Cause: " + t);
                 t = t.getCause();
                 e = e.getNextException();
             }
         }
     }
+
     @Override
     public String byId(int id) throws DAOException {
         String selectSQL = "SELECT authorId, name, email FROM Author WHERE authorId = ?";
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/proydesa", "root", "root");
              PreparedStatement preparedStatement = conn.prepareStatement(selectSQL)) {
-             preparedStatement.setInt(1, id);
-             ResultSet resultSet = preparedStatement.executeQuery();
-                if (resultSet.next()) {
-                    int authorId = resultSet.getInt("authorId");
-                    String name = resultSet.getString("name");
-                    String email = resultSet.getString("email");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                int authorId = resultSet.getInt("authorId");
+                String name = resultSet.getString("name");
+                String email = resultSet.getString("email");
 
-                    String author= "Id:"+authorId+"\n"
-                            +"name:"+name+"\n"
-                            +"Email:" + email;
+                String author = "Id:" + authorId + "\n"
+                        + "name:" + name + "\n"
+                        + "Email:" + email;
 
-                    return author ;
+                return author;
 
-                } else {
-                    return "Author no encontrado"; // No author found with the given ID
-                }
+            } else {
+                return "Author no encontrado"; // No author found with the given ID
             }
-
-        catch (SQLException e) {
-            System.out.println(e.getMessage());;
-        } return null;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            ;
+        }
+        return null;
     }
 
     @Override
@@ -134,7 +135,7 @@ public class AuthorDaoBBDDImpl implements AuthorDaoBBDD {
 
             // Eliminar libros asociados al autor
             try (PreparedStatement deleteBooksStmt = conn.prepareStatement(deleteBooksSQL)) {
-                deleteBooksStmt.setInt(1,id);
+                deleteBooksStmt.setInt(1, id);
                 deleteBooksStmt.executeUpdate();
             }
 

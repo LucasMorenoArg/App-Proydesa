@@ -28,38 +28,19 @@ public class Main {
             createAuthor(authorDaoMemory);
             createBook(bookDaoMemory, authorDaoMemory);
             //Creación de autores y libros en archivo
- //          createAuthorFile(authorDaoFile, authorDaoMemory);
- //          createBookFile(bookDaoFile, bookDaoMemory);
+
+            //          createAuthorFile(authorDaoFile, authorDaoMemory);
+            //          createBookFile(bookDaoFile, bookDaoMemory);
 
             //Creación de autores y libros en BBDD
 
 
             //Actualización y eliminación de autores y libros en memoria.
-//            updateAuthor(authorDaoMemory);
-//            updateBook(bookDaoMemory, authorDaoMemory);
-//            getAllBooks(bookDaoMemory);
-//            authorOrder(authorDaoMemory);
-//            deleteAuthor(authorDaoMemory);
-//            deleteBook(bookDaoMemory);
-//            booksSortedByPrice(bookDaoMemory);
-//            booksSortedByTitle(bookDaoMemory);
-//            getAllAuthors(authorDaoMemory);
-//            System.out.println("Lectura en archivo");
-//            readBookFile(bookDaoFile);
-//            System.out.println("byId");
-//            getBookById(1, bookDaoFile);
-//            //sortedAuthorsByName(authorDaoFile);
-//            //authorById(0,authorDaoFile);
-//            updateAuthor(authorDaoMemory);
-            //getAllAuthors(authorDaoMemory);
 
-            //Actualización  y eliminación de autores y libros en archivo.
-
-     //         createAuthorFile(authorDaoFile,authorDaoMemory);
-     //         authorByIdDaoFile(1,authorDaoFile);
-     //         updateAuthorDaoFile(authorDaoFile);
-     //         authorByIdDaoFile(0,authorDaoFile);
-     //         sortedAuthorsByNameFile(authorDaoFile);
+            createAuthorFile(authorDaoFile, authorDaoMemory);
+            getAllAuthorsDaoFile(authorDaoFile);
+            createBookFile(bookDaoFile, bookDaoMemory);
+            readBookFile(bookDaoFile);
 
 
             //Actualización  y eliminación de autores y libros en BBDD
@@ -70,17 +51,22 @@ public class Main {
             //createBookBBDD(authorDaoBBDD);
 
             //createAuthorBBDD(authorDaoBBDD);
-            getAllAuthor(authorDaoBBDD);
+
+            //getAllAuthor(authorDaoBBDD);
             //createBookBBDD(bookDaoBBDD);
            // deleteAuthor(authorDaoBBDD);
-          bookById(bookDaoBBDD);
-    //      deleteBookId(bookDaoBBDD);
+             //bookById(bookDaoBBDD);
+          //deleteBookId(bookDaoBBDD);
             //getBooksSortedByTitle(bookDaoBBDD);
 
 
 
         } catch (DAOException daoException){
             System.out.println(daoException.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -133,36 +119,37 @@ public class Main {
             bookDaoMemory.create(new Book("CCC", 34.00, authorDaoMemory.byId(3)));
     }
 
-    public static void getAllBooks(BookDao bookDaoMemory) throws DAOException{
+    public static void getAllBooks(BookDao bookDaoMemory) throws DAOException {
 
-           for (Book book:bookDaoMemory.getAll()){
-                System.out.println(book);}
+        for (Book book : bookDaoMemory.getAll()) {
+            System.out.println(book);
+        }
     }
 
 
-    public static void updateBook(BookDao bookDaoMemory, AuthorDao authorDaoMemory) throws DAOException{
+    public static void updateBook(BookDao bookDaoMemory, AuthorDao authorDaoMemory) throws DAOException {
 
         Book bookActualizado = new Book("CCC", 45.00, authorDaoMemory.byId(3));
         Book viejo = bookDaoMemory.byId(2);
-        bookDaoMemory.update(viejo,bookActualizado);
+        bookDaoMemory.update(viejo, bookActualizado);
     }
 
 
-    public static void booksSortedByTitle(BookDao bookDaoMemory) throws DAOException{
+    public static void booksSortedByTitle(BookDao bookDaoMemory) throws DAOException {
 
-            bookDaoMemory.getBooksSortedByTitle(Order.Asc);
+        bookDaoMemory.getBooksSortedByTitle(Order.Asc);
     }
 
 
-    public static void booksSortedByPrice(BookDao bookDaoMempory) throws DAOException{
+    public static void booksSortedByPrice(BookDao bookDaoMempory) throws DAOException {
 
-            bookDaoMempory.getBooksSortedByPrice(Order.Desc);
+        bookDaoMempory.getBooksSortedByPrice(Order.Desc);
     }
 
 
-    public static void deleteBook(BookDao bookDaoMemory) throws DAOException{
+    public static void deleteBook(BookDao bookDaoMemory) throws DAOException {
 
-            bookDaoMemory.delete(0);
+        bookDaoMemory.delete(0);
     }
 
 
@@ -173,7 +160,8 @@ public class Main {
     public static void createAuthorFile(AuthorDaoFile authorDaoFile, AuthorDao authorDaoMemory) throws DAOException, IOException {
 
         List<Author> lista = new ArrayList<>();
-        lista.add(authorDaoMemory.byId(1));
+        Author author = new Author("Isabel Allende", "IAllende@gmail.com");
+        lista.add(author);
         lista.add(authorDaoMemory.byId(2));
         lista.add(authorDaoMemory.byId(3));
 
@@ -183,12 +171,12 @@ public class Main {
 
     public static void authorByIdDaoFile(Integer id, AuthorDaoFile authorDaoFile) throws DAOException, IOException, ClassNotFoundException {
 
-         System.out.println(authorDaoFile.byId(id));
+        System.out.println(authorDaoFile.byId(id));
     }
 
     public static void getAllAuthorsDaoFile(AuthorDaoFile authorDaoFile) throws DAOException, IOException, ClassNotFoundException {
 
-        for (Author a : authorDaoFile.getAllAuthors()){
+        for (Author a : authorDaoFile.getAllAuthors()) {
             System.out.println(a);
         }
     }
@@ -202,7 +190,7 @@ public class Main {
         author2.setEmail("JLopez@gmail.com");
         System.out.println("Update Authors");
 
-        for (Author author: authorDaoFile.update(author1, author2)){
+        for (Author author : authorDaoFile.update(author1, author2)) {
             System.out.println(author + "1");
         }
 
@@ -232,9 +220,9 @@ public class Main {
 
     public static void readBookFile(BookDaoFile bookDaoFile) throws DAOException, IOException, ClassNotFoundException {
 
-        List<Book> lista =  bookDaoFile.getAll();
+        List<Book> lista = bookDaoFile.getAll();
 
-        for (Book book:lista){
+        for (Book book : lista) {
             System.out.println(book);
         }
 
@@ -251,9 +239,9 @@ public class Main {
 
     public static void createAuthorBBDD(AuthorDaoBBDD authorDaoBBDD) throws DAOException {
 
-        Author a1= authorDaoMemory.byId(1);
-        Author a2= authorDaoMemory.byId(2);
-        Author a3= authorDaoMemory.byId(3);
+        Author a1 = authorDaoMemory.byId(1);
+        Author a2 = authorDaoMemory.byId(2);
+        Author a3 = authorDaoMemory.byId(3);
         authorDaoBBDD.create(a1);
         authorDaoBBDD.create(a2);
         authorDaoBBDD.create(a3);
@@ -274,7 +262,7 @@ public class Main {
 
     public static void updateAuthor(AuthorDaoBBDD authorDaoBBDD) throws DAOException {
 
-        Author a1= authorDaoMemory.byId(1);
+        Author a1 = authorDaoMemory.byId(1);
         a1.setName("Juan Martinez");
         a1.setEmail("jMartinez@gmail.com");
         authorDaoBBDD.update(a1);
@@ -282,7 +270,7 @@ public class Main {
 
     public static void deleteAuthor(AuthorDaoBBDD authorDaoBBDD) throws DAOException {
 
-        authorDaoBBDD.deleteAuthorById(0);
+        authorDaoBBDD.deleteAuthorById(1);
     }
 
     //------------------------BookDaoBBDD--------------------------------------------------------------
@@ -313,9 +301,9 @@ public class Main {
     public static void getBooksSortedByTitle(BookDaoBBDD bookDaoBBDD) throws DAOException {
 
 
-        List<String> list = bookDaoBBDD.getBooksSortedByTitle(Order.Asc);
+        List<String> list = bookDaoBBDD.getBooksSortedByTitle(Order.Desc);
 
-        for (String l :list){
+        for (String l : list) {
             System.out.println(l);
         }
 

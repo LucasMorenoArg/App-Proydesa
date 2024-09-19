@@ -23,8 +23,7 @@ public class BookDaoBBDDImpl implements BookDaoBBDD {
     public String byId(Integer id) throws DAOException {
 
         String selectSQL = "SELECT * FROM Book WHERE bookId = ?";
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/proydesa", "root", "root");
-             PreparedStatement preparedStatement = conn.prepareStatement(selectSQL)) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/proydesa", "root", "root"); PreparedStatement preparedStatement = conn.prepareStatement(selectSQL)) {
 
             preparedStatement.setInt(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -35,10 +34,10 @@ public class BookDaoBBDDImpl implements BookDaoBBDD {
                     int authorId = resultSet.getInt("authorId");
 
 
-                    String book= "bookId: "+bookId+"\n"
-                            +"name: "+title+"\n"
-                            +"price: " + price+"\n"
-                            +"authorId: "+authorId;
+                    String book = "bookId: " + bookId + "\n"
+                            + "name: " + title + "\n"
+                            + "price: " + price + "\n"
+                            + "authorId: " + authorId;
 
                     return book;
                 } else {
@@ -57,7 +56,7 @@ public class BookDaoBBDDImpl implements BookDaoBBDD {
 
         String insertSQL = "INSERT INTO Book (bookId, title, price, authorId) VALUES (?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/proydesa", "root", "root");
-            PreparedStatement preparedStatement = conn.prepareStatement(insertSQL)) {
+             PreparedStatement preparedStatement = conn.prepareStatement(insertSQL)) {
             preparedStatement.setInt(1, book.getBookId());
             preparedStatement.setString(2, book.getTitle());
             preparedStatement.setDouble(3, book.getPrice());
@@ -91,10 +90,9 @@ public class BookDaoBBDDImpl implements BookDaoBBDD {
     }
 
 
-
     @Override
     public List<String> getBooksSortedByTitle(Order order) throws DAOException {
-        AuthorDaoBBDDImpl authorDaoBBDD= new AuthorDaoBBDDImpl();
+        AuthorDaoBBDDImpl authorDaoBBDD = new AuthorDaoBBDDImpl();
 
 
         String orderByClause = (order == Order.Asc) ? "ASC" : "DESC";
@@ -113,21 +111,12 @@ public class BookDaoBBDDImpl implements BookDaoBBDD {
                 Integer authorId = resultSet.getInt("authorId");
 
 
-
-//                String book= "bookId: "+bookId+"\n"
-//                        +"name: "+title+"\n"
-//                        +"price: " + price+"\n"
-//                        +"authorId: "+authorId;
-
-
-
-
                 List<String> list = new ArrayList<>();
 
-                list.add("bookId: "+ bookId);
-                list.add("name: "+ title);
+                list.add("bookId: " + bookId);
+                list.add("name: " + title);
                 list.add("price: " + price);
-                list.add("authorId: "+ authorId);
+                list.add("authorId: " + authorId);
 
                 return list;
 
